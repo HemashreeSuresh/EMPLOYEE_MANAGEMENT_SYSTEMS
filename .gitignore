@@ -6,6 +6,8 @@ __pycache__/
 .DS_Store
 backend/database.db
 frontend/.DS_Store
+frontend/static/uploads/*
+!frontend/static/uploads/.gitkeep
 instance/
 .env
 .venv/
