@@ -1,16 +1,15 @@
 {
   "version": 2,
-  "buildCommand": "pip install -r requirements.txt",
   "builds": [
     {
-      "src": "backend/app.py",
+      "src": "api/index.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "backend/app.py"
+      "dest": "api/index.py"
     }
   ]
 }

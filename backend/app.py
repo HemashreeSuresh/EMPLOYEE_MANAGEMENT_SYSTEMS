@@ -189,4 +189,5 @@ with app.app_context():
 
 
 if __name__ == "__main__":
+    # Only run dev server locally, not in Vercel
     app.run(debug=True)
