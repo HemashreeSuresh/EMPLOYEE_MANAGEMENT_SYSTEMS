@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Employee Work Activity{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Employee Work Activity</h2>
+    <a class="btn btn-outline-primary" href="{{ url_for('manager.dashboard') }}">Back to Dashboard</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Department</th>
+                <th>Task Summary</th>
+                <th>Latest Task</th>
+                <th>Attendance</th>
+                <th>Pending Leaves</th>
+                <th>Break Entries</th>
+                <th>Latest Activity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in activity_rows %}
+            <tr>
+                <td>
+                    <div class="fw-semibold">{{ row.employee.full_name }}</div>
+                    <div class="small text-muted">{{ row.employee.designation }}</div>
+                </td>
+                <td>{{ row.employee.department }}</td>
+                <td>
+                    <div>Total: {{ row.task_total }}</div>
+                    <div class="small text-muted">Completed: {{ row.completed_tasks }} | In Progress: {{ row.in_progress_tasks }}</div>
+                </td>
+                <td>
+                    {% if row.latest_task %}
+                    <div class="fw-semibold">{{ row.latest_task.title }}</div>
+                    <div class="small text-muted">{{ row.latest_task.status }}</div>
+                    {% else %}
+                    <span class="text-muted">No task activity</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <div>Total: {{ row.attendance_total }}</div>
+                    <div class="small text-muted">
+                        {% if row.latest_attendance %}
+                        {{ row.latest_attendance.date }} | {{ row.latest_attendance.status }}
+                        {% else %}
+                        No attendance yet
+                        {% endif %}
+                    </div>
+                </td>
+                <td>{{ row.pending_leaves }}</td>
+                <td>{{ row.relaxation_total }}</td>
+                <td>
+                    {% if row.latest_log %}
+                    <div>{{ row.latest_log.action }}</div>
+                    <div class="small text-muted">{{ row.latest_log.timestamp.strftime('%Y-%m-%d %H:%M') }}</div>
+                    {% else %}
+                    <span class="text-muted">No activity log</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="8" class="text-center text-muted">No employee activity found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

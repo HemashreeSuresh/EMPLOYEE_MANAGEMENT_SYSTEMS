@@ -1,0 +1,32 @@
+﻿{% extends "base.html" %}
+{% block title %}Mark Attendance{% endblock %}
+{% block content %}
+<h2 class="mb-3">Mark Attendance</h2>
+<div class="card p-3 mb-4">
+    <form method="POST" class="row g-2 align-items-end">
+        <div class="col-md-3"><label class="form-label">Date</label><input class="form-control" value="{{ today }}" disabled></div>
+        <div class="col-md-4">
+            <label class="form-label">Status</label>
+            <select class="form-select" name="status" required>
+                <option value="">Select</option>
+                <option>Present</option>
+                <option>Absent</option>
+                <option>WFH</option>
+                <option>Pending</option>
+            </select>
+        </div>
+        <div class="col-md-3"><button class="btn btn-primary">Submit</button></div>
+    </form>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead><tr><th>Date</th><th>Status</th><th>Approved By</th></tr></thead>
+    <tbody>
+        {% for r in records %}
+        <tr><td>{{ r.date }}</td><td>{{ r.status }}</td><td>{{ r.approved_by or '-' }}</td></tr>
+        {% else %}
+        <tr><td colspan="3" class="text-center text-muted">No attendance data.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

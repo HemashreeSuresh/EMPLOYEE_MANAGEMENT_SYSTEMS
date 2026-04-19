@@ -1,0 +1,27 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Attendance Overview{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Employee Attendance</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-light">
+            <tr><th>Date</th><th>Employee</th><th>Department</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            {% for row, emp in attendance_records %}
+            <tr>
+                <td>{{ row.date }}</td>
+                <td>{{ emp.full_name }}</td>
+                <td>{{ emp.department }}</td>
+                <td>{{ row.status }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4" class="text-center text-muted">No attendance data.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

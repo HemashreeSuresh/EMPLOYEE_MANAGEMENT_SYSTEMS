@@ -1,0 +1,61 @@
+﻿{% extends "base.html" %}
+{% block title %}Login | EMS{% endblock %}
+
+{% block content %}
+<section class="login-shell">
+    <div class="login-stage">
+        <div class="login-card">
+            <h2>SK Consultant</h2>
+            <p class="login-subtitle">Employee Management System</p>
+
+            <form method="POST" class="login-form">
+                <div class="mb-3">
+                    <label class="form-label login-label">Username</label>
+                    <div class="login-input-wrap">
+                        <input class="form-control login-input" name="username" placeholder="Enter username" required>
+                        <span class="login-icon">@</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label login-label">Password</label>
+                    <div class="login-input-wrap">
+                        <input id="loginPassword" type="password" class="form-control login-input" name="password" placeholder="Enter password" required>
+                        <button id="togglePassword" type="button" class="login-eye" aria-label="Toggle password visibility">Show</button>
+                    </div>
+                </div>
+
+                <button class="btn login-submit w-100" type="submit">Sign In</button>
+            </form>
+
+            <a href="#" class="login-forgot">Forgot your password?</a>
+
+            <div class="login-demo-box">
+                <div class="login-demo-title">Demo Credentials</div>
+                <div class="login-demo-grid">
+                    <span class="login-demo-chip">admin / admin123</span>
+                    <span class="login-demo-chip">hr / hr123</span>
+                    <span class="login-demo-chip">manager / manager123</span>
+                    <span class="login-demo-chip">employee / employee123</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    const pwd = document.getElementById('loginPassword');
+    const btn = document.getElementById('togglePassword');
+    if (!pwd || !btn) return;
+
+    btn.addEventListener('click', function () {
+        const hidden = pwd.type === 'password';
+        pwd.type = hidden ? 'text' : 'password';
+        btn.textContent = hidden ? 'Hide' : 'Show';
+    });
+})();
+</script>
+{% endblock %}

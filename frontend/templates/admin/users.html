@@ -1,0 +1,56 @@
+﻿{% extends "base.html" %}
+{% block title %}Manage Users{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Manage Users and Roles</h2>
+
+<div class="card mb-4 p-3">
+    <h5>Create User</h5>
+    <form method="POST" class="row g-2">
+        <div class="col-md-3"><input class="form-control" name="username" placeholder="Username" required></div>
+        <div class="col-md-3"><input type="password" class="form-control" name="password" placeholder="Password" required></div>
+        <div class="col-md-3">
+            <select class="form-select" name="role" required>
+                <option value="">Select role</option>
+                <option>Admin</option><option>HR</option><option>Manager</option><option>Employee</option>
+            </select>
+        </div>
+        <div class="col-md-2"><button class="btn btn-primary" type="submit">Create</button></div>
+    </form>
+</div>
+
+<div class="table-responsive">
+<table class="table table-bordered table-striped">
+    <thead><tr><th>ID</th><th>Username</th><th>Role</th><th>Update Role</th><th>Delete</th></tr></thead>
+    <tbody>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.username }}</td>
+            <td>{{ u.role }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('admin.update_user_role', user_id=u.id) }}" class="d-flex gap-2">
+                    <select name="role" class="form-select form-select-sm" style="max-width: 180px;">
+                        <option {% if u.role == 'Admin' %}selected{% endif %}>Admin</option>
+                        <option {% if u.role == 'HR' %}selected{% endif %}>HR</option>
+                        <option {% if u.role == 'Manager' %}selected{% endif %}>Manager</option>
+                        <option {% if u.role == 'Employee' %}selected{% endif %}>Employee</option>
+                    </select>
+                    <button class="btn btn-sm btn-outline-primary" type="submit">Save</button>
+                </form>
+            </td>
+            <td>
+                {% if u.id == session.get('user_id') %}
+                <button class="btn btn-sm btn-secondary" type="button" disabled>Current User</button>
+                {% else %}
+                <form method="POST" action="{{ url_for('admin.delete_user', user_id=u.id) }}" onsubmit="return confirm('Delete this user account?');">
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

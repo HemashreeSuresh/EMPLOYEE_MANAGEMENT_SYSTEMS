@@ -1,0 +1,40 @@
+﻿{% extends "base.html" %}
+{% block title %}Document Upload{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Upload Employee Documents</h2>
+<div class="card p-3 mb-4">
+    <form method="POST" enctype="multipart/form-data" class="row g-2">
+        <div class="col-md-4">
+            <label class="form-label visually-hidden" for="employee_id">Employee</label>
+            <select class="form-select" id="employee_id" name="employee_id" aria-label="Employee" title="Employee" required>
+                <option value="">Select employee</option>
+                {% for e in employees %}
+                <option value="{{ e.id }}">{{ e.full_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-5">
+            <label class="form-label visually-hidden" for="document">Document</label>
+            <input type="file" class="form-control" id="document" name="document" aria-label="Document" title="Document" required>
+        </div>
+        <div class="col-md-3"><button class="btn btn-primary w-100" type="submit">Upload</button></div>
+    </form>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead><tr><th>ID</th><th>Employee Name</th><th>File</th><th>Uploaded At</th></tr></thead>
+    <tbody>
+        {% for d in docs %}
+        <tr>
+            <td>{{ d.id }}</td>
+            <td>{{ d.employee.full_name if d.employee else '-' }}</td>
+            <td><a href="/{{ d.file_path }}" target="_blank">View</a></td>
+            <td>{{ d.uploaded_at }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" class="text-center text-muted">No documents uploaded.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

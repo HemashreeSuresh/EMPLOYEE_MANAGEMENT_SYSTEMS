@@ -1,0 +1,16 @@
+﻿{% extends "base.html" %}
+{% block title %}Announcements{% endblock %}
+{% block content %}
+<h2 class="mb-3">Announcements</h2>
+<div class="list-group">
+{% for a in items %}
+    <div class="list-group-item">
+        <div class="fw-bold">{{ a.title }}</div>
+        <div>{{ a.content }}</div>
+        <small class="text-muted">{{ a.date }}</small>
+    </div>
+{% else %}
+    <div class="text-muted">No announcements available.</div>
+{% endfor %}
+</div>
+{% endblock %}

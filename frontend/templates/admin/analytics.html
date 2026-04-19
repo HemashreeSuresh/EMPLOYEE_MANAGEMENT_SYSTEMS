@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Admin Analytics{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Organization Analytics</h2>
+    <a class="btn btn-outline-primary" href="{{ url_for('admin.dashboard') }}">Back to Dashboard</a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-6"><div class="card p-3"><h6>Approved Attendance %</h6><h3>{{ approved_pct }}%</h3></div></div>
+    <div class="col-md-6"><div class="card p-3"><h6>High Burnout Risk (Latest)</h6><h3>{{ high_risk_employees }}</h3></div></div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-4">
+        <div class="card p-3 h-100">
+            <h5 class="mb-3">Department Distribution</h5>
+            <div class="list-group" role="list">
+                {% for department, count in dept_rows %}
+                <div class="list-group-item d-flex justify-content-between" role="listitem">
+                    <span>{{ department or 'Unassigned' }}</span>
+                    <strong>{{ count }}</strong>
+                </div>
+                {% else %}
+                <div class="list-group-item text-center" role="listitem">No data</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card p-3 h-100">
+            <h5 class="mb-3">Leave Status</h5>
+            <div class="list-group" role="list">
+                {% for status, count in leave_rows %}
+                <div class="list-group-item d-flex justify-content-between" role="listitem">
+                    <span>{{ status }}</span>
+                    <strong>{{ count }}</strong>
+                </div>
+                {% else %}
+                <div class="list-group-item text-center" role="listitem">No leave data</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card p-3 h-100">
+            <h5 class="mb-3">Burnout Risk Levels</h5>
+            <div class="list-group" role="list">
+                {% for level, count in risk_rows %}
+                <div class="list-group-item d-flex justify-content-between" role="listitem">
+                    <span>{{ level }}</span>
+                    <strong>{{ count }}</strong>
+                </div>
+                {% else %}
+                <div class="list-group-item text-center" role="listitem">No risk scores yet</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

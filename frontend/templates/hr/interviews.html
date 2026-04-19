@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Employee Interviews{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Employee Interviews</h2>
+    <a class="btn btn-outline-secondary" href="{{ url_for('hr.employees') }}">Back to Employees</a>
+</div>
+
+<div class="card p-3 mb-4">
+    <p class="text-muted mb-3">Select an employee, record interview answers, and save the final HR recommendation.</p>
+    <form method="GET" class="row g-3 align-items-end">
+        <div class="col-md-8">
+            <label class="form-label" for="employee_id">Select Employee</label>
+            <select class="form-select" id="employee_id" name="employee_id" required>
+                <option value="">Choose employee</option>
+                {% for employee in employees %}
+                <option value="{{ employee.id }}" {% if selected_employee_id == employee.id %}selected{% endif %}>
+                    {{ employee.full_name }} - {{ employee.designation }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary w-100" type="submit">Open Interview Form</button>
+        </div>
+    </form>
+</div>
+
+{% if selected_employee %}
+<div class="card p-3 mb-4">
+    <div class="mb-3">
+        <h4 class="mb-1">{{ selected_employee.full_name }}</h4>
+        <div class="text-muted">{{ selected_employee.designation }} | {{ selected_employee.department }}</div>
+    </div>
+
+    <form method="POST" class="row g-3">
+        <input type="hidden" name="employee_id" value="{{ selected_employee.id }}">
+
+        {% for question in interview_questions %}
+        <div class="col-12">
+            <label class="form-label" for="answer_{{ loop.index0 }}">{{ loop.index }}. {{ question }}</label>
+            <textarea
+                class="form-control"
+                id="answer_{{ loop.index0 }}"
+                name="answer_{{ loop.index0 }}"
+                rows="2"
+                placeholder="Write the employee's answer or interview note"
+            ></textarea>
+        </div>
+        {% endfor %}
+
+        <div class="col-md-4">
+            <label class="form-label" for="recommendation">Recommendation</label>
+            <select class="form-select" id="recommendation" name="recommendation" required>
+                <option value="Pending">Pending</option>
+                <option value="Selected">Selected</option>
+                <option value="Hold">Hold</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+        </div>
+        <div class="col-md-8">
+            <label class="form-label" for="overall_notes">Overall HR Notes</label>
+            <textarea class="form-control" id="overall_notes" name="overall_notes" rows="2" placeholder="Add final interview remarks"></textarea>
+        </div>
+
+        <div class="col-12">
+            <button class="btn btn-success" type="submit">Save Interview</button>
+        </div>
+    </form>
+</div>
+
+<div class="card p-3">
+    <h5 class="mb-3">Previous Interview Records</h5>
+    {% for item in parsed_sessions %}
+    <div class="border rounded p-3 mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="fw-semibold">{{ item.session.interviewed_at.strftime('%Y-%m-%d %H:%M') }}</div>
+            <span class="badge text-bg-primary">{{ item.session.recommendation }}</span>
+        </div>
+        {% for answer in item.answers %}
+        <div class="mb-2">
+            <div class="fw-semibold">{{ loop.index }}. {{ answer.question }}</div>
+            <div class="text-muted">{{ answer.answer or '-' }}</div>
+        </div>
+        {% endfor %}
+        <div>
+            <div class="fw-semibold">Overall Notes</div>
+            <div class="text-muted">{{ item.session.overall_notes or '-' }}</div>
+        </div>
+    </div>
+    {% else %}
+    <div class="text-muted">No interview records saved for this employee yet.</div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

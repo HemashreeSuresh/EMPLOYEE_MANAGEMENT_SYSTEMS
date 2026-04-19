@@ -1,0 +1,26 @@
+﻿{% extends "base.html" %}
+{% block title %}Add Employee{% endblock %}
+{% block content %}
+<h2 class="mb-3">Add Employee</h2>
+<form method="POST" class="row g-3">
+    <div class="col-md-6"><label class="form-label">Login Username</label><input class="form-control" name="username" required></div>
+    <div class="col-md-6"><label class="form-label">Login Password</label><input type="password" class="form-control" name="password" required></div>
+    <div class="col-md-6">
+        <label class="form-label">Role</label>
+        <select class="form-select" name="role" required>
+            <option value="Employee" selected>Employee</option>
+            <option value="Manager">Manager</option>
+            <option value="HR">HR</option>
+            <option value="Admin">Admin</option>
+        </select>
+    </div>
+    <div class="col-md-6"><label class="form-label">Full Name</label><input class="form-control" name="full_name" required></div>
+    <div class="col-md-6"><label class="form-label">Email</label><input type="email" class="form-control" name="email" required></div>
+    <div class="col-md-6"><label class="form-label">Phone</label><input class="form-control" name="phone" required></div>
+    <div class="col-md-6"><label class="form-label">Department</label><input class="form-control" name="department" required></div>
+    <div class="col-md-6"><label class="form-label">Designation</label><input class="form-control" name="designation" required></div>
+    <div class="col-md-6"><label class="form-label">Salary</label><input type="number" class="form-control" step="0.01" name="salary" required></div>
+    <div class="col-md-6"><label class="form-label">Joining Date</label><input type="date" class="form-control" name="joining_date" required></div>
+    <div class="col-12"><button class="btn btn-primary" type="submit">Save Employee</button></div>
+</form>
+{% endblock %}

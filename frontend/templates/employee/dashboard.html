@@ -1,0 +1,17 @@
+﻿{% extends "base.html" %}
+{% block title %}Employee Dashboard{% endblock %}
+{% block content %}
+<h2 class="mb-3">Employee Dashboard</h2>
+<div class="row g-3 mb-4">
+    <div class="col-md-6"><div class="card p-3"><h6>My Name</h6><h5>{{ employee.full_name if employee else '-' }}</h5></div></div>
+    <div class="col-md-6"><div class="card p-3"><h6>Attendance Entries</h6><h3>{{ attendance_count }}</h3></div></div>
+</div>
+<h5>Recent Announcements</h5>
+<div class="list-group">
+{% for a in items %}
+    <div class="list-group-item"><div class="fw-bold">{{ a.title }}</div><div>{{ a.content }}</div></div>
+{% else %}
+    <div class="text-muted">No announcements.</div>
+{% endfor %}
+</div>
+{% endblock %}

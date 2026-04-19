@@ -1,0 +1,55 @@
+﻿{% extends "base.html" %}
+{% block title %}Daily Task Assignment{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Daily Task Assignment</h2>
+
+<div class="card p-3 mb-4">
+    <h5 class="mb-3">Assign New Task</h5>
+    <form method="POST" class="row g-2">
+        <div class="col-md-3">
+            <select class="form-select" name="employee_id" required>
+                <option value="">Select Employee</option>
+                {% for e in employees %}
+                <option value="{{ e.id }}">{{ e.full_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3"><input class="form-control" name="title" placeholder="Task title" required></div>
+        <div class="col-md-3"><input type="date" class="form-control" name="due_date" required></div>
+        <div class="col-md-12"><textarea class="form-control" name="description" rows="2" placeholder="Task description" required></textarea></div>
+        <div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Assign Task</button></div>
+    </form>
+</div>
+
+<div class="table-responsive">
+<table class="table table-bordered table-striped align-middle">
+    <thead>
+        <tr>
+            <th>ID</th><th>Employee Name</th><th>Title</th><th>Due</th><th>Status</th><th>Progress Report</th><th>Work File</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in tasks %}
+        <tr>
+            <td>{{ t.id }}</td>
+            <td>{{ t.employee.full_name if t.employee else '-' }}</td>
+            <td>{{ t.title }}</td>
+            <td>{{ t.due_date }}</td>
+            <td>{{ t.status }}</td>
+            <td>{{ t.progress_notes or '-' }}</td>
+            <td>
+                {% if t.work_file_path %}
+                <a href="/{{ t.work_file_path }}" target="_blank" class="btn btn-sm btn-outline-secondary">View File</a>
+                {% else %}
+                -
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center text-muted">No tasks assigned yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

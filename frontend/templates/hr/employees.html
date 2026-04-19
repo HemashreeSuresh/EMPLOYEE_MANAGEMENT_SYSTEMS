@@ -1,0 +1,58 @@
+﻿{% extends "base.html" %}
+{% block title %}Employees{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Employees</h2>
+    {% if session.get('role') == 'Admin' %}
+    <a href="{{ url_for('hr.add_employee') }}" class="btn btn-primary">Add Employee</a>
+    {% endif %}
+</div>
+
+<form method="GET" class="row g-2 mb-3">
+    <div class="col-md-5">
+        <label class="form-label visually-hidden" for="search">Search employees</label>
+        <input id="search" name="search" class="form-control" value="{{ search }}" placeholder="Search by name, department or designation">
+    </div>
+    <div class="col-md-3">
+        <label class="form-label visually-hidden" for="role">Filter by role</label>
+        <select id="role" name="role" class="form-select" aria-label="Filter by role">
+            <option value="">All Roles</option>
+            <option value="Admin" {% if role_filter == 'Admin' %}selected{% endif %}>Admin</option>
+            <option value="Manager" {% if role_filter == 'Manager' %}selected{% endif %}>Manager</option>
+            <option value="HR" {% if role_filter == 'HR' %}selected{% endif %}>HR</option>
+            <option value="Employee" {% if role_filter == 'Employee' %}selected{% endif %}>Employee</option>
+        </select>
+    </div>
+    <div class="col-md-2"><button class="btn btn-outline-primary w-100" type="submit">Filter</button></div>
+    <div class="col-md-2"><a href="{{ url_for('hr.employees') }}" class="btn btn-outline-secondary w-100">Reset</a></div>
+</form>
+
+<div class="table-responsive">
+<table class="table table-bordered table-striped align-middle">
+    <thead><tr><th>ID</th><th>Name</th><th>Username</th><th>Email</th><th>Department</th><th>Designation</th><th>Role</th><th>Actions</th></tr></thead>
+    <tbody>
+        {% for e in employees %}
+        <tr>
+            <td>{{ e.id }}</td>
+            <td>{{ e.full_name }}</td>
+            <td>{{ e.user.username if e.user else '-' }}</td>
+            <td>{{ e.email }}</td>
+            <td>{{ e.department }}</td>
+            <td>{{ e.designation }}</td>
+            <td>{{ e.user.role if e.user else '-' }}</td>
+            <td>
+                <a class="btn btn-sm btn-info" href="{{ url_for('hr.interviews', employee_id=e.id) }}">Interview</a>
+                <a class="btn btn-sm btn-warning" href="{{ url_for('hr.edit_employee', employee_id=e.id) }}">Edit</a>
+                <form method="POST" action="{{ url_for('hr.delete_employee', employee_id=e.id) }}" class="d-inline" onsubmit="return confirm('Delete employee?');">
+                    <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="text-center text-muted">No employees found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

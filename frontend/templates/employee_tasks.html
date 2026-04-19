@@ -1,0 +1,39 @@
+﻿{% extends "base.html" %}
+
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">My Tasks</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-light"><tr><th>Title</th><th>Description</th><th>Due</th><th>Status</th><th>Progress Notes</th><th>Update</th></tr></thead>
+        <tbody>
+            {% for task in task_list %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.due_date }}</td>
+                <td>{{ task.status }}</td>
+                <td>{{ task.progress_notes or '-' }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('update_task', task_id=task.id) }}">
+                        <div class="d-flex flex-column gap-1">
+                            <select name="status" class="form-select form-select-sm">
+                                <option {% if task.status=='Assigned' %}selected{% endif %}>Assigned</option>
+                                <option {% if task.status=='In Progress' %}selected{% endif %}>In Progress</option>
+                                <option {% if task.status=='Completed' %}selected{% endif %}>Completed</option>
+                            </select>
+                            <input name="progress_notes" class="form-control form-control-sm" value="{{ task.progress_notes or '' }}" placeholder="Progress notes">
+                            <button class="btn btn-sm btn-outline-primary" type="submit">Update</button>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6" class="text-center text-muted">No tasks assigned to you.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

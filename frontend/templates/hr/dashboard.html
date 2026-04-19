@@ -1,0 +1,14 @@
+﻿{% extends "base.html" %}
+{% block title %}HR Dashboard{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">HR Dashboard</h2>
+    <a class="btn btn-outline-primary" href="{{ url_for('hr.analytics') }}">View Analytics</a>
+</div>
+<div class="row g-3 mb-4">
+    <div class="col-md-4"><div class="card p-3"><h6>Total Employees</h6><h3>{{ employee_count }}</h3></div></div>
+    <div class="col-md-4"><div class="card p-3"><h6>Today Attendance</h6><h3>{{ today_attendance }}</h3></div></div>
+    <div class="col-md-4"><div class="card p-3"><h6>Pending Attendance</h6><h3>{{ pending_attendance }}</h3></div></div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}My Alerts{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">My Alerts</h2>
+
+<div class="card p-3">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Message</th>
+                <th>Created</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row.alert_type }}</td>
+                <td>{{ row.message }}</td>
+                <td>{{ row.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>
+                    {% if row.is_read %}
+                    <span class="badge text-bg-secondary">Read</span>
+                    {% else %}
+                    <span class="badge text-bg-primary">Unread</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not row.is_read %}
+                    <form method="POST">
+                        <input type="hidden" name="alert_id" value="{{ row.id }}">
+                        <button class="btn btn-sm btn-outline-success" type="submit">Mark Read</button>
+                    </form>
+                    {% else %}
+                    <span class="text-muted">-</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-center">No alerts available.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

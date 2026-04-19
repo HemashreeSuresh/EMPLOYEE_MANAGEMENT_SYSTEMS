@@ -1,0 +1,40 @@
+﻿{% extends "base.html" %}
+
+{% block title %}My Attendance{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">My Attendance</h2>
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+        <h5>Mark Attendance for {{ today }}</h5>
+        <form method="POST" class="row g-2 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label">Status</label>
+                <select class="form-select" name="status" required>
+                    <option value="">Select status</option>
+                    <option value="Present" {% if existing and existing.status == 'Present' %}selected{% endif %}>Present</option>
+                    <option value="WFH" {% if existing and existing.status == 'WFH' %}selected{% endif %}>WFH</option>
+                    <option value="Absent" {% if existing and existing.status == 'Absent' %}selected{% endif %}>Absent</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead class="table-light"><tr><th>Date</th><th>Status</th></tr></thead>
+        <tbody>
+            {% for row in records %}
+            <tr><td>{{ row.date }}</td><td>{{ row.status }}</td></tr>
+            {% else %}
+            <tr><td colspan="2" class="text-center text-muted">No attendance records.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

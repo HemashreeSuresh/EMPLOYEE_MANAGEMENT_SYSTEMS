@@ -1,0 +1,15 @@
+﻿{% extends "base.html" %}
+{% block title %}Attendance Management{% endblock %}
+{% block content %}
+<h2 class="mb-3">Attendance Records</h2>
+<table class="table table-bordered table-striped">
+    <thead><tr><th>ID</th><th>Employee Name</th><th>Date</th><th>Status</th><th>Approved By</th></tr></thead>
+    <tbody>
+        {% for r in rows %}
+        <tr><td>{{ r.id }}</td><td>{{ r.employee.full_name if r.employee else '-' }}</td><td>{{ r.date }}</td><td>{{ r.status }}</td><td>{{ r.approved_by or '-' }}</td></tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">No attendance records.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

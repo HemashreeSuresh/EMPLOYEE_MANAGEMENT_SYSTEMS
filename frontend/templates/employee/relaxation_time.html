@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}My Relaxation Time{% endblock %}
+{% block content %}
+<h2 class="mb-3">My Relaxation Time</h2>
+
+<div class="card p-3 mb-4">
+    <form method="POST" class="row g-3">
+        <div class="col-md-3">
+            <label class="form-label">Date</label>
+            <input type="date" name="relax_date" class="form-control" value="{{ today }}" required>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Start Time</label>
+            <input type="time" name="start_time" class="form-control" required>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">End Time</label>
+            <input type="time" name="end_time" class="form-control" required>
+        </div>
+        <div class="col-md-12">
+            <label class="form-label">Reason (Optional)</label>
+            <input type="text" name="reason" class="form-control" placeholder="Short reason">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Add Relaxation Time</button>
+        </div>
+    </form>
+</div>
+
+<h5>My Relaxation Entries</h5>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Reason</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row.relax_date }}</td>
+            <td>{{ row.start_time }}</td>
+            <td>{{ row.end_time }}</td>
+            <td>{{ row.reason or '-' }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4" class="text-center text-muted">No relaxation time added.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

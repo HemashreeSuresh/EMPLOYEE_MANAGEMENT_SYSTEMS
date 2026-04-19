@@ -1,0 +1,45 @@
+﻿{% extends "base.html" %}
+{% block title %}My Task Progress{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">My Tasks and Progress</h2>
+
+<div class="table-responsive">
+<table class="table table-bordered table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Task</th><th>Description</th><th>Due</th><th>Status</th><th>Progress Update</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in tasks %}
+        <tr>
+            <td>{{ t.title }}</td>
+            <td>{{ t.description }}</td>
+            <td>{{ t.due_date }}</td>
+            <td>{{ t.status }}</td>
+            <td style="min-width: 280px;">
+                <form method="POST" action="{{ url_for('employee.update_task', task_id=t.id) }}" enctype="multipart/form-data">
+                    <div class="d-flex flex-column gap-2">
+                        <select name="status" class="form-select form-select-sm" required>
+                            <option value="Assigned" {% if t.status == 'Assigned' %}selected{% endif %}>Assigned</option>
+                            <option value="In Progress" {% if t.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                            <option value="Completed" {% if t.status == 'Completed' %}selected{% endif %}>Completed</option>
+                        </select>
+                        <textarea name="progress_notes" class="form-control form-control-sm" rows="2" placeholder="Update today's progress">{{ t.progress_notes or '' }}</textarea>
+                        <input type="file" name="work_file" class="form-control form-control-sm" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.ppt,.pptx,.txt,.zip,.png,.jpg,.jpeg">
+                        {% if t.work_file_path %}
+                        <a class="btn btn-sm btn-outline-secondary" href="/{{ t.work_file_path }}" target="_blank">View Last Uploaded File</a>
+                        {% endif %}
+                        <button class="btn btn-sm btn-primary" type="submit">Update Progress</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">No tasks assigned yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

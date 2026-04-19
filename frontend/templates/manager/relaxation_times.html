@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Employee Relaxation Time{% endblock %}
+{% block content %}
+<h2 class="mb-3">Employee Relaxation Time</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Employee Name</th>
+            <th>Date</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Reason</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.employee.full_name if row.employee else '-' }}</td>
+            <td>{{ row.relax_date }}</td>
+            <td>{{ row.start_time }}</td>
+            <td>{{ row.end_time }}</td>
+            <td>{{ row.reason or '-' }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6" class="text-center text-muted">No relaxation entries found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

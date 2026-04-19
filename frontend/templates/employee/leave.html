@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}My Leave Requests{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Leave Request</h2>
+
+<div class="card p-3 mb-4">
+    <h5 class="mb-3">Submit Leave Request</h5>
+    <form method="POST" class="row g-3">
+        <div class="col-md-4">
+            <label class="form-label">Leave Type</label>
+            <select name="leave_type" class="form-select" required>
+                <option value="">Select type</option>
+                <option value="Casual">Casual</option>
+                <option value="Sick">Sick</option>
+                <option value="Earned">Earned</option>
+                <option value="Emergency">Emergency</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Start Date</label>
+            <input type="date" name="start_date" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">End Date</label>
+            <input type="date" name="end_date" class="form-control" required>
+        </div>
+        <div class="col-12">
+            <label class="form-label">Reason</label>
+            <textarea name="reason" class="form-control" rows="2" required></textarea>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+        </div>
+    </form>
+</div>
+
+<div class="card p-3">
+    <h5 class="mb-3">My Leave History</h5>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Status</th>
+                <th>Manager Note</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.leave_type }}</td>
+                <td>{{ row.start_date }}</td>
+                <td>{{ row.end_date }}</td>
+                <td>
+                    <span class="badge {% if row.status == 'Approved' %}text-bg-success{% elif row.status == 'Rejected' %}text-bg-danger{% else %}text-bg-warning{% endif %}">
+                        {{ row.status }}
+                    </span>
+                </td>
+                <td>{{ row.manager_note or "-" }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6" class="text-center">No leave requests submitted.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

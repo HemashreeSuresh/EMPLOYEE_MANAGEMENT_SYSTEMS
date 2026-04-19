@@ -1,0 +1,27 @@
+﻿{% extends "base.html" %}
+
+{% block title %}My Payroll{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">My Payroll Details</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead class="table-light"><tr><th>Month</th><th>Basic</th><th>Bonus</th><th>Deductions</th><th>Net Salary</th><th>Remarks</th></tr></thead>
+        <tbody>
+            {% for p in payroll_rows %}
+            <tr>
+                <td>{{ p.month }}</td>
+                <td>{{ "%.2f"|format(p.basic_salary) }}</td>
+                <td>{{ "%.2f"|format(p.bonus) }}</td>
+                <td>{{ "%.2f"|format(p.deductions) }}</td>
+                <td>{{ "%.2f"|format(p.net_salary) }}</td>
+                <td>{{ p.remarks or '-' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6" class="text-center text-muted">No payroll data available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

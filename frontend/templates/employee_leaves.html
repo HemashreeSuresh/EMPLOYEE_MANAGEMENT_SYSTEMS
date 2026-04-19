@@ -1,0 +1,33 @@
+﻿{% extends "base.html" %}
+
+{% block title %}My Leave Requests{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">My Leave Requests</h2>
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+        <h5 class="mb-3">Apply for Leave</h5>
+        <form method="POST" class="row g-3">
+            <div class="col-md-3"><label class="form-label">Type</label><input class="form-control" name="leave_type" required></div>
+            <div class="col-md-3"><label class="form-label">Start Date</label><input type="date" class="form-control" name="start_date" required></div>
+            <div class="col-md-3"><label class="form-label">End Date</label><input type="date" class="form-control" name="end_date" required></div>
+            <div class="col-md-12"><label class="form-label">Reason</label><textarea class="form-control" name="reason" rows="2" required></textarea></div>
+            <div class="col-auto"><button class="btn btn-primary" type="submit">Submit</button></div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead class="table-light"><tr><th>Type</th><th>Start</th><th>End</th><th>Reason</th><th>Status</th></tr></thead>
+        <tbody>
+            {% for row in leaves %}
+            <tr><td>{{ row.leave_type }}</td><td>{{ row.start_date }}</td><td>{{ row.end_date }}</td><td>{{ row.reason }}</td><td>{{ row.status }}</td></tr>
+            {% else %}
+            <tr><td colspan="5" class="text-center text-muted">No leave requests.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

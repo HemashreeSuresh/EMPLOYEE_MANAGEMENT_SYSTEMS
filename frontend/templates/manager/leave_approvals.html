@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Leave Approvals{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Leave Approvals</h2>
+
+<div class="card p-3">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Employee</th>
+                <th>Type</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.employee.full_name }}</td>
+                <td>{{ row.leave_type }}</td>
+                <td>{{ row.start_date }}</td>
+                <td>{{ row.end_date }}</td>
+                <td>{{ row.reason }}</td>
+                <td>
+                    <span class="badge {% if row.status == 'Approved' %}text-bg-success{% elif row.status == 'Rejected' %}text-bg-danger{% else %}text-bg-warning{% endif %}">
+                        {{ row.status }}
+                    </span>
+                </td>
+                <td>
+                    {% if row.status == 'Pending' %}
+                    <form method="POST" action="{{ url_for('manager.decide_leave', leave_id=row.id) }}" class="d-flex gap-2">
+                        <input type="text" name="manager_note" class="form-control form-control-sm" placeholder="Note">
+                        <button name="decision" value="Approved" class="btn btn-sm btn-success">Approve</button>
+                        <button name="decision" value="Rejected" class="btn btn-sm btn-danger">Reject</button>
+                    </form>
+                    {% else %}
+                    <small>{{ row.manager_note or "-" }}</small>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="8" class="text-center">No leave requests found.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

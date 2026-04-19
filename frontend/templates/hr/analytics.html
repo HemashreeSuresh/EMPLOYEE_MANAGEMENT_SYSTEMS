@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}HR Analytics{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">HR Analytics</h2>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="card p-3"><h6>Pending Leaves</h6><h3>{{ pending_leave }}</h3></div></div>
+    <div class="col-md-3"><div class="card p-3"><h6>Approved Leaves</h6><h3>{{ approved_leave }}</h3></div></div>
+    <div class="col-md-3"><div class="card p-3"><h6>Rejected Leaves</h6><h3>{{ rejected_leave }}</h3></div></div>
+    <div class="col-md-3"><div class="card p-3"><h6>Medium/High Risk</h6><h3>{{ high_risk_count }}</h3></div></div>
+</div>
+
+<div class="card p-3">
+    <h5 class="mb-3">Recent Burnout Scores</h5>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Score</th>
+                <th>Risk Level</th>
+                <th>Generated</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in top_risk %}
+            <tr>
+                <td>{{ row.employee.full_name }}</td>
+                <td>{{ row.score }}</td>
+                <td>
+                    <span class="badge {% if row.risk_level == 'High' %}text-bg-danger{% elif row.risk_level == 'Medium' %}text-bg-warning{% else %}text-bg-success{% endif %}">
+                        {{ row.risk_level }}
+                    </span>
+                </td>
+                <td>{{ row.generated_on.strftime('%Y-%m-%d %H:%M') }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4" class="text-center">No burnout scores available yet.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Payroll Management{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Payroll Management</h2>
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+        <h5 class="mb-3">Add Payroll Entry</h5>
+        <form method="POST" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Employee</label>
+                <select name="employee_id" class="form-select" required>
+                    <option value="">Select employee</option>
+                    {% for emp in employees %}
+                    <option value="{{ emp.id }}">{{ emp.full_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2"><label class="form-label">Month</label><input type="month" name="month" class="form-control" required></div>
+            <div class="col-md-2"><label class="form-label">Basic Salary</label><input type="number" name="basic_salary" class="form-control" min="0" step="0.01" required></div>
+            <div class="col-md-2"><label class="form-label">Bonus</label><input type="number" name="bonus" class="form-control" min="0" step="0.01" value="0"></div>
+            <div class="col-md-2"><label class="form-label">Deductions</label><input type="number" name="deductions" class="form-control" min="0" step="0.01" value="0"></div>
+            <div class="col-md-12"><label class="form-label">Remarks</label><input type="text" name="remarks" class="form-control"></div>
+            <div class="col-auto"><button class="btn btn-primary" type="submit">Save Payroll</button></div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead class="table-light"><tr><th>Employee</th><th>Month</th><th>Basic</th><th>Bonus</th><th>Deductions</th><th>Net Salary</th><th>Remarks</th></tr></thead>
+        <tbody>
+            {% for p, emp in payroll_rows %}
+            <tr>
+                <td>{{ emp.full_name }}</td>
+                <td>{{ p.month }}</td>
+                <td>{{ "%.2f"|format(p.basic_salary) }}</td>
+                <td>{{ "%.2f"|format(p.bonus) }}</td>
+                <td>{{ "%.2f"|format(p.deductions) }}</td>
+                <td>{{ "%.2f"|format(p.net_salary) }}</td>
+                <td>{{ p.remarks or '-' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7" class="text-center text-muted">No payroll records.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

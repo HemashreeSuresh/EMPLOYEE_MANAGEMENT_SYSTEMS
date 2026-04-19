@@ -1,0 +1,15 @@
+﻿{% extends "base.html" %}
+{% block title %}Edit Employee{% endblock %}
+{% block content %}
+<h2 class="mb-3">Edit Employee</h2>
+<form method="POST" class="row g-3">
+    <div class="col-md-6"><label class="form-label" for="full_name">Full Name</label><input class="form-control" id="full_name" name="full_name" value="{{ employee.full_name }}" aria-label="Full Name" title="Full Name" required></div>
+    <div class="col-md-6"><label class="form-label" for="email">Email</label><input type="email" class="form-control" id="email" name="email" value="{{ employee.email }}" aria-label="Email" title="Email" required></div>
+    <div class="col-md-6"><label class="form-label" for="phone">Phone</label><input class="form-control" id="phone" name="phone" value="{{ employee.phone }}" aria-label="Phone" title="Phone" required></div>
+    <div class="col-md-6"><label class="form-label" for="department">Department</label><input class="form-control" id="department" name="department" value="{{ employee.department }}" aria-label="Department" title="Department" required></div>
+    <div class="col-md-6"><label class="form-label" for="designation">Designation</label><input class="form-control" id="designation" name="designation" value="{{ employee.designation }}" aria-label="Designation" title="Designation" required></div>
+    <div class="col-md-6"><label class="form-label" for="salary">Salary</label><input type="number" class="form-control" id="salary" step="0.01" name="salary" value="{{ employee.salary }}" aria-label="Salary" title="Salary" required></div>
+    <div class="col-md-6"><label class="form-label" for="joining_date">Joining Date</label><input type="date" class="form-control" id="joining_date" name="joining_date" value="{{ employee.joining_date }}" aria-label="Joining Date" title="Joining Date" required></div>
+    <div class="col-12"><button class="btn btn-primary" type="submit">Update Employee</button></div>
+</form>
+{% endblock %}

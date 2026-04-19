@@ -1,0 +1,12 @@
+﻿{% extends "base.html" %}
+{% block title %}Salary Details{% endblock %}
+{% block content %}
+<h2 class="mb-3">Salary Information</h2>
+<div class="card p-4">
+    <p><strong>Name:</strong> {{ employee.full_name }}</p>
+    <p><strong>Department:</strong> {{ employee.department }}</p>
+    <p><strong>Designation:</strong> {{ employee.designation }}</p>
+    <p><strong>Salary:</strong> {{ "%.2f"|format(employee.salary) }}</p>
+    <p><strong>Joining Date:</strong> {{ employee.joining_date }}</p>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Leave Approval{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Leave Approval</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-light">
+            <tr><th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Reason</th><th>Status</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+            {% for leave, emp in leave_requests %}
+            <tr>
+                <td>{{ emp.full_name }}</td>
+                <td>{{ leave.leave_type }}</td>
+                <td>{{ leave.start_date }}</td>
+                <td>{{ leave.end_date }}</td>
+                <td>{{ leave.reason }}</td>
+                <td>{{ leave.status }}</td>
+                <td>
+                    {% if leave.status == 'Pending' %}
+                    <form method="POST" class="d-inline">
+                        <input type="hidden" name="leave_id" value="{{ leave.id }}">
+                        <button class="btn btn-sm btn-success" name="action" value="approve" type="submit">Approve</button>
+                        <button class="btn btn-sm btn-danger" name="action" value="reject" type="submit">Reject</button>
+                    </form>
+                    {% else %}
+                    <span class="text-muted">Reviewed by {{ leave.reviewed_by }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7" class="text-center text-muted">No leave requests.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
